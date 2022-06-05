@@ -1,17 +1,17 @@
 // TODO: Include packages needed for this application
 const fs = require("fs");
 const inquirer = require("inquirer");
-// TODO: Create an array of questions for user input
+// Array of questions for user input:
 const promptUser = () => {
   return inquirer.prompt([
     {
       type: "input",
-      name: "title",
+      name: "Title",
       message: "What is the title of your project?",
     },
     {
       type: "input",
-      name: "description",
+      name: "Description",
       message: "Please provide a brief description of your project.",
     },
     {
@@ -38,7 +38,7 @@ const promptUser = () => {
     {
       type: "list",
       message: "What license are you using for this project?",
-      name: "Licenses:",
+      name: "Licenses",
       choices: ["None", "MIT", "Apache 2.0", "GPL v3.0"],
     },
     {
@@ -65,3 +65,18 @@ const init = () => {
 };
 // calls function to append user input to markdown file
 init();
+
+// function for generating markdown
+function generateMarkdown(data) {
+  return `
+  # ${data.Title}
+  # ${data.Description}
+  # ${data.Installation}
+  # ${data.Usage}
+  # ${data.Contributions}
+  # ${data.Tests}
+  # ${data.Licenses}
+  # ${data.Github}
+  # ${data.Email}
+  `;
+}
