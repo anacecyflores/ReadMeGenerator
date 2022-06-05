@@ -2,39 +2,66 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
 // TODO: Create an array of questions for user input
-inquirer
-  .prompt([
+const promptUser = () => {
+  return inquirer.prompt([
     {
       type: "input",
-      name: "name",
-      message: "What is your name?",
+      name: "title",
+      message: "What is the title of your project?",
     },
     {
-      type: "checkbox",
-      message: "What languages do you know?",
-      name: "stack",
-      choices: ["HTML", "CSS", "JavaScript", "MySQL"],
+      type: "input",
+      name: "description",
+      message: "Please provide a brief description of your project.",
+    },
+    {
+      type: "input",
+      name: "installation",
+      message:
+        "Please indicate what is required for the installation of this project.",
+    },
+    {
+      type: "input",
+      name: "Usage",
+      message: "Please provide a brief description of how to use your project.",
+    },
+    {
+      type: "input",
+      name: "Contributions",
+      message: "Please provide additional contributers/collaborators.",
+    },
+    {
+      type: "input",
+      name: "Tests",
+      message: "Please list which methods were used to test the code if any.",
     },
     {
       type: "list",
-      message: "What is your preferred method of communication?",
-      name: "contact",
-      choices: ["email", "phone", "telekinesis"],
+      message: "What license are you using for this project?",
+      name: "Licenses:",
+      choices: ["None", "MIT", "Apache 2.0", "GPL v3.0"],
     },
-  ])
-  .then((data) => {
-    const filename = `${data.name.toLowerCase().split(" ").join("")}.json`;
+    {
+      type: "input",
+      name: "Github",
+      message: "Please provide your Github Username.",
+    },
+    {
+      type: "input",
+      name: "Email",
+      message: "Please provide your Email address.",
+    },
+  ]);
+};
 
-    fs.writeFile(filename, JSON.stringify(data, null, "\t"), (err) =>
-      err ? console.log(err) : console.log("Success!")
-    );
-  });
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
+// function for appending user input to markdown file
+const init = () => {
+  promptUser()
+    .then((answers) =>
+      fs.writeFileSync("./generated.md", generateMarkdown(answers))
+    )
+    .then(() => console.log("Successfully wrote to generated.md"))
+    .catch((err) => console.error(err));
+};
+// calls function to append user input to markdown file
 init();
