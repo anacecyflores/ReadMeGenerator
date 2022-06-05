@@ -38,7 +38,7 @@ const promptUser = () => {
     {
       type: "list",
       message: "What license are you using for this project?",
-      name: "Licenses",
+      name: "license",
       choices: ["None", "MIT", "Apache 2.0", "GPL v3.0"],
     },
     {
@@ -70,13 +70,53 @@ init();
 function generateMarkdown(data) {
   return `
   # ${data.Title}
-  # ${data.Description}
-  # ${data.Installation}
-  # ${data.Usage}
-  # ${data.Contributions}
-  # ${data.Tests}
-  # ${data.Licenses}
-  # ${data.Github}
-  # ${data.Email}
+  # Description:
+    ${data.Description}
+  # Installation: 
+    ${data.Installation}
+  # Usage:
+    ${data.Usage}
+  # Contributors: 
+    ${data.Contributions}
+  # Tests: 
+    ${data.Tests}
+  # License: 
+    ${createLicenseBadge(data.license)}
+    ${createLicenseLink(data.license)}
+  # Contact: 
+    ${data.Github}
+    ${data.Email}
   `;
+}
+
+// function to generate license badge
+function createLicenseBadge(license) {
+  let badge = "";
+  if (license === "MIT") {
+    badge =
+      "![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)";
+  } else if (license === "Apache 2.0") {
+    badge =
+      "![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)";
+  } else if (license === "GPL v3.0") {
+    badge =
+      "![license: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)";
+  } else {
+    badge = "";
+  }
+  return badge;
+}
+// function to generate license link
+function createLicenseLink(license) {
+  let licenseLink = "";
+  if (license === "MIT") {
+    licenseLink = "https://choosealicense.com/license/mit/";
+  } else if (license === "Apache 2.0") {
+    licenseLink = "http://www.apache.org/license/LICENSE-2.0";
+  } else if (license === "GPL v3.0") {
+    licenseLink = "https://www.gnu.org/license";
+  } else {
+    licenseLink = "";
+  }
+  return licenseLink;
 }
