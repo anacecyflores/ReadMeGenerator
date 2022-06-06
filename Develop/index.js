@@ -48,8 +48,8 @@ const promptUser = () => {
     {
       type: "list",
       message: "What license are you using for this project?",
-      name: "License",
-      choices: ["None", "MIT", "Apache 2.0", "GPL v3.0"],
+      name: "license",
+      choices: ["None", "MIT", "Apache--2.0", "GPL v3.0"],
     },
   ]);
 };
@@ -63,11 +63,14 @@ const init = () => {
 };
 // calls function to append user input to markdown file
 init();
-
 // function for generating markdown
 function generateMarkdown(data) {
+  createLicenseBadge(data.license);
+  createLicenseLink(data.license);
+
   return `
   # ${data.Title}
+  ![license-badge](https://img.shields.io/badge/license-${data.license}-blue)
 
 # Description:
 ${data.Description}
@@ -89,8 +92,7 @@ ${data.Contributions}
 # Tests: 
 ${data.Tests}
 # License: 
-${createLicenseBadge(data.license)}
-${createLicenseLink(data.license)}
+${data.license}
 # Contact: 
 ${data.Github}
 ${data.Email}
@@ -98,28 +100,27 @@ ${data.Email}
 }
 
 // function to generate license badge
+let badge = "";
 function createLicenseBadge(license) {
-  let badge = "";
   if (license === "MIT") {
     badge =
       "![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)";
-  } else if (license === "Apache --2.0") {
+  } else if (license === "Apache--2.0") {
     badge =
-      "![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)";
+      "![License](https://img.shields.io/badge/License--Apache%202.0-blue.svg)";
   } else if (license === "GPL v3.0") {
     badge =
       "![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)";
-  } else {
-    badge = "";
   }
-  return badge;
+  console.log(badge);
+  // return badge;
 }
 // function to generate license link
 function createLicenseLink(license) {
   let licenseLink = "";
   if (license === "MIT") {
     licenseLink = "https://choosealicense.com/licenses/mit/";
-  } else if (license === "Apache 2.0") {
+  } else if (license === "Apache--2.0") {
     licenseLink = "http://www.apache.org/licenses/LICENSE-2.0";
   } else if (license === "GPL v3.0") {
     licenseLink = "https://www.gnu.org/licenses";
