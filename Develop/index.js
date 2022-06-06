@@ -61,17 +61,21 @@ const init = () => {
     .then(() => console.log("Successfully wrote to generated.md"))
     .catch((err) => console.error(err));
 };
+
+function createTable(license) {
+  if (license === "None") {
+    return "";
+  } else {
+    return "* [License](#License)";
+  }
+}
 // calls function to append user input to markdown file
 init();
 // function for generating markdown
 function generateMarkdown(data) {
-  createLicenseBadge(data.license);
-  createLicenseLink(data.license);
-
   return `
   # ${data.Title}
-  ![license-badge](https://img.shields.io/badge/license-${data.license}-blue)
-
+${createLicenseBadge(data.license)}
 # Description:
 ${data.Description}
 
@@ -80,7 +84,7 @@ ${data.Description}
 * [Usage](#Usage)
 * [Contributors](#Contributors)
 * [Tests](#Tests)
-* [License](#License)
+${createTable(data.license)}
 * [Contact](#Contact)
 
 # Installation: 
@@ -91,41 +95,51 @@ ${data.Usage}
 ${data.Contributions}
 # Tests: 
 ${data.Tests}
-# License
-${data.license} License
-  Copyright (c) 2022 ${data.Github}
-  Licensed under the ${licenseLink} License.
-  ## Questions
+${createLicenseLink(data.license, data.Github)}
+# Questions
  * GitHub Profile - https://github.com/${data.Github}
  * Email me at ${data.Email}
 `;
 }
 
 // function to generate license badge
-let badge = "";
 function createLicenseBadge(license) {
   if (license === "MIT") {
-    badge =
-      "![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)";
+    return "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
   } else if (license === "Apache--2.0") {
-    badge =
-      "![License](https://img.shields.io/badge/License--Apache%202.0-blue.svg)";
+    return "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)";
   } else if (license === "GPL v3.0") {
-    badge =
-      "![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)";
+    return "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)";
+  } else {
+    return "";
   }
+
   console.log(badge);
   // return badge;
 }
 // function to generate license link
-function createLicenseLink(license) {
+function createLicenseLink(license, Github) {
   if (license === "MIT") {
     licenseLink = `[MIT](https://opensource.org/licenses/MIT)`;
+    return `# License
+${license} License
+  Copyright (c) 2022 ${Github}
+  Licensed under the ${licenseLink} License.`;
   }
   if (license === "GPLv3") {
     licenseLink = `[GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)`;
+    return `# License
+${license} License
+  Copyright (c) 2022 ${Github}
+  Licensed under the ${licenseLink} License.`;
   }
   if (license === "Apache--2.0") {
     licenseLink = `[Apache-2.0](https://opensource.org/licenses/Apache-2.0)`;
+    return `# License
+${license} License
+  Copyright (c) 2022 ${Github}
+  Licensed under the ${licenseLink} License.`;
+  } else {
+    return "";
   }
 }
