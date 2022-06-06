@@ -91,11 +91,13 @@ ${data.Usage}
 ${data.Contributions}
 # Tests: 
 ${data.Tests}
-# License: 
-${data.license}
-# Contact: 
-${data.Github}
-${data.Email}
+# License
+${data.license} License
+  Copyright (c) 2022 ${data.Github}
+  Licensed under the ${licenseLink} License.
+  ## Questions
+ * GitHub Profile - https://github.com/${data.Github}
+ * Email me at ${data.Email}
 `;
 }
 
@@ -117,15 +119,13 @@ function createLicenseBadge(license) {
 }
 // function to generate license link
 function createLicenseLink(license) {
-  let licenseLink = "";
   if (license === "MIT") {
-    licenseLink = "https://choosealicense.com/licenses/mit/";
-  } else if (license === "Apache--2.0") {
-    licenseLink = "http://www.apache.org/licenses/LICENSE-2.0";
-  } else if (license === "GPL v3.0") {
-    licenseLink = "https://www.gnu.org/licenses";
-  } else {
-    licenseLink = "";
+    licenseLink = `[MIT](https://opensource.org/licenses/MIT)`;
   }
-  return licenseLink;
+  if (license === "GPLv3") {
+    licenseLink = `[GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)`;
+  }
+  if (license === "Apache--2.0") {
+    licenseLink = `[Apache-2.0](https://opensource.org/licenses/Apache-2.0)`;
+  }
 }
