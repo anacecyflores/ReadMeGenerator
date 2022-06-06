@@ -6,6 +6,16 @@ const promptUser = () => {
   return inquirer.prompt([
     {
       type: "input",
+      name: "Github",
+      message: "Please provide your Github Username.",
+    },
+    {
+      type: "input",
+      name: "Email",
+      message: "Please provide your Email address.",
+    },
+    {
+      type: "input",
       name: "Title",
       message: "What is the title of your project?",
     },
@@ -16,7 +26,7 @@ const promptUser = () => {
     },
     {
       type: "input",
-      name: "installation",
+      name: "Installation",
       message:
         "Please indicate what is required for the installation of this project.",
     },
@@ -38,18 +48,8 @@ const promptUser = () => {
     {
       type: "list",
       message: "What license are you using for this project?",
-      name: "license",
+      name: "License",
       choices: ["None", "MIT", "Apache 2.0", "GPL v3.0"],
-    },
-    {
-      type: "input",
-      name: "Github",
-      message: "Please provide your Github Username.",
-    },
-    {
-      type: "input",
-      name: "Email",
-      message: "Please provide your Email address.",
     },
   ]);
 };
@@ -57,9 +57,7 @@ const promptUser = () => {
 // function for appending user input to markdown file
 const init = () => {
   promptUser()
-    .then((answers) =>
-      fs.writeFileSync("./generated.md", generateMarkdown(answers))
-    )
+    .then((data) => fs.writeFileSync("./generated.md", generateMarkdown(data)))
     .then(() => console.log("Successfully wrote to generated.md"))
     .catch((err) => console.error(err));
 };
@@ -70,23 +68,33 @@ init();
 function generateMarkdown(data) {
   return `
   # ${data.Title}
-  # Description:
-    ${data.Description}
-  # Installation: 
-    ${data.Installation}
-  # Usage:
-    ${data.Usage}
-  # Contributors: 
-    ${data.Contributions}
-  # Tests: 
-    ${data.Tests}
-  # License: 
-    ${createLicenseBadge(data.license)}
-    ${createLicenseLink(data.license)}
-  # Contact: 
-    ${data.Github}
-    ${data.Email}
-  `;
+
+# Description:
+${data.Description}
+
+# Table Of Contents:
+* [Installation](#Installation)
+* [Usage](#Usage)
+* [Contributors](#Contributors)
+* [Tests](#Tests)
+* [License](#License)
+* [Contact](#Contact)
+
+# Installation: 
+${data.Installation}
+# Usage:
+${data.Usage}
+# Contributors: 
+${data.Contributions}
+# Tests: 
+${data.Tests}
+# License: 
+${createLicenseBadge(data.license)}
+${createLicenseLink(data.license)}
+# Contact: 
+${data.Github}
+${data.Email}
+`;
 }
 
 // function to generate license badge
@@ -95,12 +103,12 @@ function createLicenseBadge(license) {
   if (license === "MIT") {
     badge =
       "![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)";
-  } else if (license === "Apache 2.0") {
+  } else if (license === "Apache --2.0") {
     badge =
-      "![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)";
+      "![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)";
   } else if (license === "GPL v3.0") {
     badge =
-      "![license: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)";
+      "![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)";
   } else {
     badge = "";
   }
@@ -110,11 +118,11 @@ function createLicenseBadge(license) {
 function createLicenseLink(license) {
   let licenseLink = "";
   if (license === "MIT") {
-    licenseLink = "https://choosealicense.com/license/mit/";
+    licenseLink = "https://choosealicense.com/licenses/mit/";
   } else if (license === "Apache 2.0") {
-    licenseLink = "http://www.apache.org/license/LICENSE-2.0";
+    licenseLink = "http://www.apache.org/licenses/LICENSE-2.0";
   } else if (license === "GPL v3.0") {
-    licenseLink = "https://www.gnu.org/license";
+    licenseLink = "https://www.gnu.org/licenses";
   } else {
     licenseLink = "";
   }
