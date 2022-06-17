@@ -15,7 +15,7 @@ In this user-friendly ReadMe Generator package, the user can create a profession
 - [Tests](#Tests)
 - [License](#License)
 - [Contact](#Contact)
-- [Walk-through Videos](#Walk-through Videos)
+- Walk-through Videos
 
 # Installation:
 
